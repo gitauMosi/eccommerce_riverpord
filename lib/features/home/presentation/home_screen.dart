@@ -1,5 +1,7 @@
-
+import 'package:eccommerce_riverpord/features/home/models/product_model.dart';
+import 'package:eccommerce_riverpord/features/home/providers/product_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../../widgets/product_card.dart';
 import '../../notification/views/notifacation_screen.dart';
@@ -34,6 +36,7 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
     // Initially, show all items.
     filteredItems = allItems;
+    
   }
 
   void _filterItems(String query) {
@@ -60,18 +63,40 @@ class _HomeScreenState extends State<HomeScreen> {
               SliverToBoxAdapter(child: _searchBarWidget(context)),
               SliverToBoxAdapter(child: _promoCard(context)),
               SliverToBoxAdapter(child: _categorySection()),
-              SliverGrid(
-                delegate: SliverChildBuilderDelegate(
-                  (context, index) {
-                    return ProductCard();
-                  },
-                  childCount: 10,
-                ),
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  mainAxisSpacing: 8.0,
-                  crossAxisSpacing: 8.0,
-                ),
+
+              
+              Consumer<ProductProvider>(
+                builder: (context, productProvider, child) {
+                  if (productProvider.isLoading) {
+                   
+                    return SliverToBoxAdapter(
+                      child: Center(child: CircularProgressIndicator()),
+                    );
+                  } else if (productProvider.error.isNotEmpty) {
+                    
+                    return SliverToBoxAdapter(
+                      child: Center(
+                          child: Text("Error: ${productProvider.error}")),
+                    );
+                  } else {
+                   
+                    return SliverGrid(
+                      delegate: SliverChildBuilderDelegate(
+                        (context, index) {
+                          Product product = productProvider.products[index];
+                          return ProductCard(product: product,); 
+                        },
+                        childCount: productProvider.products.length, 
+                      ),
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        mainAxisSpacing: 8.0,
+                        crossAxisSpacing: 8.0,
+                        childAspectRatio: 0.9,
+                      ),
+                    );
+                  }
+                },
               ),
             ],
           ),

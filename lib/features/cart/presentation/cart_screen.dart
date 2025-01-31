@@ -1,11 +1,15 @@
+import 'package:eccommerce_riverpord/features/cart/models/cart_model.dart';
+import 'package:eccommerce_riverpord/features/cart/providers/cart_providers.dart';
 import 'package:eccommerce_riverpord/widgets/cart_card.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class CartScreen extends StatelessWidget {
   const CartScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    //final cartProvider = Provider.of<CartProviders>(context);
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -19,13 +23,18 @@ class CartScreen extends StatelessWidget {
           padding: const EdgeInsets.all(8.0),
           child: Column(
             children: [
-              ListView.builder(
-                  itemCount: 6,
+              Consumer<CartProviders>(
+                builder: (context, cartProvider, child){
+                  return ListView.builder(
+                  itemCount: cartProvider.cartItems.length,
                   shrinkWrap: true,
                   physics: NeverScrollableScrollPhysics(),
                   itemBuilder: (context, index) {
-                    return CartCard();
-                  }),
+                    CartItem item = cartProvider.cartItems[index];
+                    return CartCard(item: item, index: index,);
+                  });
+                },
+              ),
               SizedBox(
                 height: 250,
               )
@@ -38,6 +47,7 @@ class CartScreen extends StatelessWidget {
   }
 
   Container _customBottmSheet(BuildContext context) {
+    final cartProvider = Provider.of<CartProviders>(context);
     return Container(
       height: 250,
       padding: EdgeInsets.all(8.0),
@@ -80,7 +90,7 @@ class CartScreen extends StatelessWidget {
                 "Subtitle",
               ),
               Text(
-                "\$245.00",
+                "\$${cartProvider.getTotalPrice()}",
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
               )
             ],
@@ -100,7 +110,7 @@ class CartScreen extends StatelessWidget {
                 style: TextStyle(fontWeight: FontWeight.w500, fontSize: 18),
               ),
               Text(
-                "\$245.00",
+                "\$${cartProvider.getTotalPrice()}",
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
               )
             ],

@@ -1,9 +1,12 @@
+import 'package:eccommerce_riverpord/features/home/models/product_model.dart';
 import 'package:eccommerce_riverpord/features/home/presentation/product_screen.dart';
 import 'package:flutter/material.dart';
 
 class ProductCard extends StatelessWidget {
-  const ProductCard({
+  Product product;
+   ProductCard({
     super.key,
+    required this.product,
   });
 
   @override
@@ -11,7 +14,7 @@ class ProductCard extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         Navigator.push(
-            context, MaterialPageRoute(builder: (context) => ProductScreen()));
+            context, MaterialPageRoute(builder: (context) => ProductScreen(product: product,)));
       },
       child: Container(
         padding: EdgeInsets.all(8.0),
@@ -29,7 +32,7 @@ class ProductCard extends StatelessWidget {
                       borderRadius: BorderRadius.circular(10),
                       image: DecorationImage(
                         image: NetworkImage(
-                            "https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_.jpg"),
+                            product.image),
                       ),
                       ),
                 ),
@@ -41,10 +44,13 @@ class ProductCard extends StatelessWidget {
               ],
             ),
             Text(
-              'Discover new products',
+              product.title,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
               style: TextStyle(
                 fontSize: 15,
                 fontWeight: FontWeight.w400,
+                
               ),
             ),
             SizedBox(
@@ -56,7 +62,7 @@ class ProductCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    '\$200',
+                    '\$${product.price}',
                     style: TextStyle(
                       fontWeight: FontWeight.w500,
                     ),
@@ -69,7 +75,7 @@ class ProductCard extends StatelessWidget {
                         color: Colors.amber,
                       ),
                       Text(
-                        "4.0",
+                        product.rating.rate.toString(),
                         style: TextStyle(fontSize: 13),
                       )
                     ],

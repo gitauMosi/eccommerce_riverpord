@@ -4,22 +4,16 @@ A new Flutter project.
 
 ## Getting Started
 
-## Projetc Structure
-lib/
- ├── main.dart
- ├── core/                
- │   ├── utils/           # Utilities
- │   ├── constants.dart   # App constants
- │   ├── network.dart     # API services
- ├── features/
- │   ├── weather/
- │   │   ├── data/        # Data layer
- │   │   │   ├── models/  # Data models
- │   │   │   ├── repositories/
- │   │   ├── domain/      # Business logic (UseCases)
- │   │   │   ├── entities/  # Core entities
- │   │   │   ├── usecases/  # Business logic
- │   │   ├── presentation/  # UI and ViewModel
- │   │   │   ├── view/
- │   │   │   ├── viewmodel/
- ├── widgets/             # Reusable widgets
+## Home screen
+![alt text](<Screenshot from 2025-01-31 20-13-13.png>)
+
+## product details page
+![alt text](<Screenshot from 2025-01-31 20-13-32.png>)
+
+## cart screen
+![alt text](<Screenshot from 2025-01-31 20-13-39.png>)
+
+## profile screen
+![alt text](<Screenshot from 2025-01-31 20-13-49.png>)
+
+## Others++

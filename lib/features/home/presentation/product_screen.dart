@@ -1,7 +1,14 @@
+import 'package:eccommerce_riverpord/features/cart/models/cart_model.dart';
+import 'package:eccommerce_riverpord/features/cart/providers/cart_providers.dart';
+import 'package:eccommerce_riverpord/features/home/models/product_model.dart';
+import 'package:eccommerce_riverpord/widgets/snackbar_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+// ignore: must_be_immutable
 class ProductScreen extends StatelessWidget {
-  const ProductScreen({super.key});
+  Product product;
+   ProductScreen({super.key, required this.product});
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +24,7 @@ class ProductScreen extends StatelessWidget {
                     color: Theme.of(context).cardColor,
                     image: DecorationImage(
                       image: NetworkImage(
-                        "https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_.jpg",
+                        product.image,
                       ),
                     ),
                   ),
@@ -46,7 +53,7 @@ class ProductScreen extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "Wireless Headphones",
+            product.title,
             style: TextStyle(
               fontSize: 24.0,
               fontWeight: FontWeight.bold,
@@ -54,7 +61,7 @@ class ProductScreen extends StatelessWidget {
           ),
           SizedBox(height: 8.0),
           Text(
-            "\$520.00",
+            "\$${product.price}",
             style: TextStyle(
               fontSize: 20.0,
               fontWeight: FontWeight.bold,
@@ -75,7 +82,7 @@ class ProductScreen extends StatelessWidget {
                     size: 20.0,
                   ),
                   Text(
-                    "(320) Reviews",
+                    "(${product.rating.count}) Reviews",
                     style: TextStyle(
                       fontSize: 14.0,
                     ),
@@ -83,7 +90,7 @@ class ProductScreen extends StatelessWidget {
                 ],
               ),
               Text(
-                "Seller: Tariqul Islam",
+                "Seller: Unknown",
                 style: TextStyle(
                   fontSize: 14.0,
                 ),
@@ -100,7 +107,7 @@ class ProductScreen extends StatelessWidget {
           ),
           SizedBox(height: 8.0),
           Text(
-            "light weight & soft fabric for breathable and comfortable wearing. And Solid stitched shirts with round neck made for durability and a great fit for casual fashion wear and diehard baseball fans. The Henley style round neckline includes a three-button",
+            product.description,
             style: TextStyle(
               fontSize: 14.0,
             ),
@@ -111,6 +118,7 @@ class ProductScreen extends StatelessWidget {
   }
 
   Widget _customBottomSheet(BuildContext context) {
+    final cartProvider = Provider.of<CartProviders>(context);
     return SizedBox(
       height: 70,
       child: Container(
@@ -159,20 +167,29 @@ class ProductScreen extends StatelessWidget {
                 ],
               ),
             ),
-            Container(
-              height: 50,
-              width: MediaQuery.of(context).size.width * 0.50,
-              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  color: Theme.of(context).colorScheme.secondary),
-              child: Center(
-                  child: Text(
-                "Add to Cart",
-                style: TextStyle(
-                    color: Theme.of(context).colorScheme.onSecondary,
-                    fontWeight: FontWeight.bold),
-              )),
+            GestureDetector(
+              onTap: (){
+                cartProvider.addItem(
+                  CartItem(product: product, price: product.price)
+                );
+                showSnackBarWidget(context, "Product Added to Cart Successfull");
+
+              },
+              child: Container(
+                height: 50,
+                width: MediaQuery.of(context).size.width * 0.50,
+                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    color: Theme.of(context).colorScheme.secondary),
+                child: Center(
+                    child: Text(
+                  "Add to Cart",
+                  style: TextStyle(
+                      color: Theme.of(context).colorScheme.onSecondary,
+                      fontWeight: FontWeight.bold),
+                )),
+              ),
             )
           ],
         ),

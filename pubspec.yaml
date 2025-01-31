@@ -36,6 +36,9 @@ dependencies:
   cupertino_icons: ^1.0.8
   flex_color_scheme: ^8.1.0
   google_fonts: ^6.2.1
+  flutter_native_splash: ^2.4.4
+  dio: ^5.8.0+1
+  provider: ^6.1.2
 
 dev_dependencies:
   flutter_test:
@@ -89,3 +92,15 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package
+flutter_native_splash:
+  android: true
+  ios: true
+  web: false
+
+  image: "assets/icons/icon.png"
+  color: "#000000"
+
+  android_12:
+    color: "#000000"
+    image: "assets/icons/icon.png"
+    
