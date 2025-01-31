@@ -1,7 +1,7 @@
-import 'package:eccommerce_riverpord/features/auth/presentation/view/login_screen.dart';
-import 'package:eccommerce_riverpord/features/profile/presentation/view/app_setting_screen.dart';
-import 'package:eccommerce_riverpord/features/profile/presentation/view/edit_profile_screen.dart';
-import 'package:eccommerce_riverpord/features/profile/presentation/view/payment_screen.dart';
+import 'package:eccommerce_riverpord/features/auth/presentation/login_screen.dart';
+import 'package:eccommerce_riverpord/features/profile/presentation/app_setting_screen.dart';
+import 'package:eccommerce_riverpord/features/profile/presentation/edit_profile_screen.dart';
+import 'package:eccommerce_riverpord/features/profile/presentation/payment_screen.dart';
 import 'package:flutter/material.dart';
 
 class ProfileScreen extends StatelessWidget {

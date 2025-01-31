@@ -1,22 +1,21 @@
 import 'package:flutter/material.dart';
 
-import '../../../../widgets/custom_btn.dart';
-import '../../../../widgets/custom_textform_widget.dart';
-import '../../domain/usecases/validator_helper.dart';
-import 'login_screen.dart';
+import '../../../widgets/custom_btn.dart';
+import '../../../widgets/custom_textform_widget.dart';
+import '../../main_page.dart';
+import '../helper/validator_helper.dart';
+import 'signup_screen.dart';
 
-class SignupScreen extends StatefulWidget {
-  const SignupScreen({super.key});
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
 
   @override
-  State<SignupScreen> createState() => _SignupScreenState();
+  State<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _SignupScreenState extends State<SignupScreen> {
+class _LoginScreenState extends State<LoginScreen> {
   final usernameController = TextEditingController();
-  final emailController = TextEditingController();
   final passwordController = TextEditingController();
-  final confirmPasswordController = TextEditingController();
   bool? rememberMe = false;
 
   @override
@@ -30,21 +29,17 @@ class _SignupScreenState extends State<SignupScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                _buildSignUpTitle(),
+                _buildLoginTitle(),
                 SizedBox(height: 20),
-                _buildEmailField(),
-                SizedBox(height: 5),
                 _buildUsernameField(),
-                SizedBox(height: 5),
+                SizedBox(height: 10),
                 _buildPasswordField(),
-                SizedBox(height: 5),
-                _buildConfirmPasswordField(),
-                SizedBox(height: 5),
-                _buildPolicyRow(context),
+                SizedBox(height: 10),
+                _buildRememberMeRow(context),
                 SizedBox(height: 15),
-                _buildSignUpButton(),
-                SizedBox(height: MediaQuery.of(context).size.height * 0.15),
-                _buildLoginPrompt(context),
+                _buildLoginButton(),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.25),
+                _buildSocialLoginOptions(context),
               ],
             ),
           ),
@@ -53,11 +48,11 @@ class _SignupScreenState extends State<SignupScreen> {
     );
   }
 
-  Widget _buildSignUpTitle() {
+  Widget _buildLoginTitle() {
     return Align(
       alignment: Alignment.bottomLeft,
       child: Text(
-        "Sign Up",
+        "Log In",
         style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
       ),
     );
@@ -73,20 +68,10 @@ class _SignupScreenState extends State<SignupScreen> {
     );
   }
 
-  Widget _buildEmailField() {
-    return CustomTextFormField(
-      hintText: "Email",
-      keyboardType: TextInputType.emailAddress,
-      icon: Icons.mail_rounded,
-      validator: (String? value) => validateName(value ?? ""),
-      controller: emailController,
-    );
-  }
-
   Widget _buildPasswordField() {
     return CustomTextFormField(
       hintText: "Password",
-      keyboardType: TextInputType.text,
+      keyboardType: TextInputType.name,
       icon: Icons.lock_rounded,
       validator: (String? value) => validatePassword(value ?? ""),
       obscureText: true,
@@ -95,19 +80,7 @@ class _SignupScreenState extends State<SignupScreen> {
     );
   }
 
-  Widget _buildConfirmPasswordField() {
-    return CustomTextFormField(
-      hintText: "Confirm Password",
-      keyboardType: TextInputType.name,
-      icon: Icons.lock_rounded,
-      validator: (String? value) => validatePassword(value ?? ""),
-      obscureText: true,
-      controller: confirmPasswordController,
-      isPasswordField: true,
-    );
-  }
-
-  Widget _buildPolicyRow(BuildContext context) {
+  Widget _buildRememberMeRow(BuildContext context) {
     return Row(
       children: [
         Checkbox(
@@ -119,17 +92,10 @@ class _SignupScreenState extends State<SignupScreen> {
           },
         ),
         SizedBox(width: 4),
-        Text("I Agree with "),
+        Text("Remember me"),
+        Spacer(),
         Text(
-          "privacy",
-          style: TextStyle(
-            fontWeight: FontWeight.w500,
-            color: Theme.of(context).colorScheme.primary,
-          ),
-        ),
-        Text(" and "),
-        Text(
-          "policy",
+          "Forgot Password",
           style: TextStyle(
             fontWeight: FontWeight.w500,
             color: Theme.of(context).colorScheme.primary,
@@ -139,17 +105,52 @@ class _SignupScreenState extends State<SignupScreen> {
     );
   }
 
-  Widget _buildSignUpButton() {
-    return CustomBtn(name: "SignUp", function: () {});
+  Widget _buildLoginButton() {
+    return CustomBtn(name: "Log In", function: () {
+      Navigator.push(context, MaterialPageRoute(builder: (context)=>MainPage()));
+    });
   }
 
-  Widget _buildLoginPrompt(BuildContext context) {
+  Widget _buildSocialLoginOptions(BuildContext context) {
+    return Column(
+      children: [
+        Text("Or Sign in with"),
+        SizedBox(height: 8),
+        _buildSocialMediaIcons(),
+        SizedBox(height: 8),
+        _buildSignUpPrompt(context),
+      ],
+    );
+  }
+
+  Widget _buildSocialMediaIcons() {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.center,
+      spacing: 5,
+      children: [
+        _socialMediaIcon("assets/icons/fb.png"),
+        _socialMediaIcon("assets/icons/x.png"),
+        _socialMediaIcon("assets/icons/google.png"),
+        _socialMediaIcon("assets/icons/ig.png"),
+      ],
+    );
+  }
+
+  Widget _socialMediaIcon(String assetPath) {
+    return Image.asset(
+      assetPath,
+      width: 20,
+    );
+  }
+
+  Widget _buildSignUpPrompt(BuildContext context) {
     return InkWell(
       onTap: (){
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => LoginScreen(),
+            builder: (context) => SignupScreen(),
           ),
         );
       },
@@ -157,11 +158,11 @@ class _SignupScreenState extends State<SignupScreen> {
         text: TextSpan(
           children: [
             TextSpan(
-              text: "Have an account? ",
+              text: "Don't have an account? ",
               style: Theme.of(context).textTheme.bodyMedium,
             ),
             TextSpan(
-              text: "Login",
+              text: "Sign Up",
               style: TextStyle(
                 fontWeight: FontWeight.w500,
                 color: Theme.of(context).colorScheme.primary,

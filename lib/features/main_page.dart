@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import 'cart/presentation/view/cart_screen.dart';
-import 'explore/presentation/view/explore_screen.dart';
-import 'home/presentation/view/home_screen.dart';
-import 'profile/presentation/view/profile_screen.dart';
+import 'cart/presentation/cart_screen.dart';
+import 'favourite/presentation/favourite_screen.dart';
+import 'home/presentation/home_screen.dart';
+import 'profile/presentation/profile_screen.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
@@ -17,8 +17,8 @@ class _MainPageState extends State<MainPage> {
 
   final List<Widget> _pages = [
     HomeScreen(),
-    ExploreScreen(),
     CartScreen(),
+    FavouriteScreen(),
     ProfileScreen()
   ];
 
@@ -44,13 +44,13 @@ class _MainPageState extends State<MainPage> {
                 activeIcon: Icon(Icons.home_rounded),
                 label: 'Home'),
             BottomNavigationBarItem(
-                icon: Icon(Icons.explore_outlined),
-                activeIcon: Icon(Icons.explore_rounded),
-                label: 'Explore'),
-            BottomNavigationBarItem(
                 icon: Icon(Icons.shopping_cart_outlined),
                 activeIcon: Icon(Icons.shopping_cart_rounded),
                 label: 'Cart'),
+                BottomNavigationBarItem(
+                icon: Icon(Icons.favorite_outline_rounded),
+                activeIcon: Icon(Icons.favorite_rounded),
+                label: 'Favourites'),
             BottomNavigationBarItem(
                 icon: Icon(Icons.person_outline),
                 activeIcon: Icon(Icons.person_rounded),

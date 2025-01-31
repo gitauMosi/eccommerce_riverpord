@@ -1,4 +1,4 @@
-import 'package:eccommerce_riverpord/features/home/presentation/view/product_screen.dart';
+import 'package:eccommerce_riverpord/features/home/presentation/product_screen.dart';
 import 'package:flutter/material.dart';
 
 class ProductCard extends StatelessWidget {
@@ -9,34 +9,47 @@ class ProductCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: (){
-        Navigator.push(context, MaterialPageRoute(builder: (context) => ProductScreen()));
+      onTap: () {
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => ProductScreen()));
       },
       child: Container(
         padding: EdgeInsets.all(8.0),
         decoration: BoxDecoration(
-          color: Theme.of(context).cardColor,
-          borderRadius: BorderRadius.circular(16)
-        ),
+            color: Theme.of(context).cardColor,
+            borderRadius: BorderRadius.circular(16)),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
-              height: 100,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          image: DecorationImage(image: NetworkImage("https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_.jpg"),)
-        ),),
-      
-        Text(
+            Stack(
+              children: [
+                Container(
+                  height: 100,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      image: DecorationImage(
+                        image: NetworkImage(
+                            "https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_.jpg"),
+                      ),
+                      ),
+                ),
+
+                Positioned(
+                  right: 5,
+                  top: 3,
+                  child: Icon(Icons.favorite_outline_outlined, size: 16,))
+              ],
+            ),
+            Text(
               'Discover new products',
               style: TextStyle(
                 fontSize: 15,
                 fontWeight: FontWeight.w400,
               ),
             ),
-            SizedBox(height: 5,),
-      
+            SizedBox(
+              height: 5,
+            ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 6),
               child: Row(
@@ -48,11 +61,17 @@ class ProductCard extends StatelessWidget {
                       fontWeight: FontWeight.w500,
                     ),
                   ),
-              
                   Wrap(
                     children: [
-                      Icon(Icons.star_rounded, size: 16, color: Colors.amber,),
-                  Text("4.0", style: TextStyle(fontSize: 13),)
+                      Icon(
+                        Icons.star_rounded,
+                        size: 16,
+                        color: Colors.amber,
+                      ),
+                      Text(
+                        "4.0",
+                        style: TextStyle(fontSize: 13),
+                      )
                     ],
                   )
                 ],
@@ -63,5 +82,4 @@ class ProductCard extends StatelessWidget {
       ),
     );
   }
-
 }

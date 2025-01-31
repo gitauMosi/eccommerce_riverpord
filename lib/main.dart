@@ -1,5 +1,5 @@
 import 'package:eccommerce_riverpord/core/utils/theme.dart';
-import 'package:eccommerce_riverpord/features/splashScreen.dart';
+import 'package:eccommerce_riverpord/features/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';

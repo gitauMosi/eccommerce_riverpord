@@ -1,8 +1,10 @@
-import 'package:eccommerce_riverpord/features/home/data/models/cartegory_model.dart';
+
 import 'package:flutter/material.dart';
 
-import '../../../../widgets/my_searchbar.dart';
-import '../../../../widgets/product_card.dart';
+import '../../../widgets/product_card.dart';
+import '../../notification/views/notifacation_screen.dart';
+import '../models/cartegory_model.dart';
+import 'search_helper.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -12,6 +14,40 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  List<String> allItems = [
+    "Apple",
+    "Banana",
+    "Cherry",
+    "Grapes",
+    "Orange",
+    "Mango",
+    "Pineapple",
+    "Peach",
+    "Strawberry",
+    "Watermelon"
+  ];
+
+  List<String> filteredItems = [];
+
+  @override
+  void initState() {
+    super.initState();
+    // Initially, show all items.
+    filteredItems = allItems;
+  }
+
+  void _filterItems(String query) {
+    setState(() {
+      if (query.isEmpty) {
+        filteredItems = allItems;
+      } else {
+        filteredItems = allItems
+            .where((item) => item.toLowerCase().contains(query.toLowerCase()))
+            .toList();
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,7 +57,7 @@ class _HomeScreenState extends State<HomeScreen> {
           child: CustomScrollView(
             slivers: [
               SliverToBoxAdapter(child: _customAppBar(context)),
-              SliverToBoxAdapter(child: MySearchBar(name: 'Search stocks')),
+              SliverToBoxAdapter(child: _searchBarWidget(context)),
               SliverToBoxAdapter(child: _promoCard(context)),
               SliverToBoxAdapter(child: _categorySection()),
               SliverGrid(
@@ -40,6 +76,43 @@ class _HomeScreenState extends State<HomeScreen> {
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  Container _searchBarWidget(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 16),
+      padding: const EdgeInsets.symmetric(horizontal: 12),
+      decoration: BoxDecoration(
+        color: Theme.of(context).cardColor,
+        borderRadius: BorderRadius.circular(22),
+      ),
+      child: Row(
+        children: [
+          const SizedBox(width: 8),
+          Expanded(
+            child: TextField(
+              onChanged: _filterItems,
+              decoration: InputDecoration(
+                fillColor: Theme.of(context).cardColor,
+                filled: true,
+                hintText: "Search..",
+                border: InputBorder.none,
+              ),
+            ),
+          ),
+          InkWell(
+              onTap: () {
+                showSearch(
+                  context: context,
+                  delegate: CustomSearchDelegate(allItems),
+                );
+              },
+              child: const Icon(
+                Icons.search,
+              )),
+        ],
       ),
     );
   }
@@ -142,11 +215,20 @@ class _HomeScreenState extends State<HomeScreen> {
                 shape: BoxShape.circle, color: Theme.of(context).cardColor),
             child: Icon(Icons.grid_view_sharp),
           ),
-          Container(
-            padding: EdgeInsets.all(8.0),
-            decoration: BoxDecoration(
-                shape: BoxShape.circle, color: Theme.of(context).cardColor),
-            child: Icon(Icons.notifications_none),
+          InkWell(
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => NotifacationScreen(),
+                  ));
+            },
+            child: Container(
+              padding: EdgeInsets.all(8.0),
+              decoration: BoxDecoration(
+                  shape: BoxShape.circle, color: Theme.of(context).cardColor),
+              child: Icon(Icons.notifications_none),
+            ),
           )
         ],
       ),
